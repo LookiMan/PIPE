@@ -24,7 +24,7 @@ Exchange files between devices in the same local wifi network
 
 **Get help:**
 
-`python master.py -h/--help`
+`python main.py -h/--help`
 
 ![](https://github.com/LookiMan/PIPE/blob/master/screenshots/Help-text.png)
 
@@ -32,7 +32,7 @@ Exchange files between devices in the same local wifi network
 
 **Run server with distributing a file:**
 
-`python master.py -f photo.png`
+`python main.py -f photo.png`
 
 ![](https://github.com/LookiMan/PIPE/blob/master/screenshots/File-distribution-screenshot.png)
 
@@ -42,7 +42,7 @@ Exchange files between devices in the same local wifi network
 
 **Run server without distributing a file (If you only need to get the file from another device):**
 
-`python master.py`
+`python main.py`
 
 ![](https://github.com/LookiMan/PIPE/blob/master/screenshots/Run-server-without-distributing-a-file.png)
 
@@ -50,7 +50,7 @@ Exchange files between devices in the same local wifi network
 
 **Run server with custom port (default 5000):**
 
-`python master.py 5001`
+`python main.py 5001`
 
 ![](https://github.com/LookiMan/PIPE/blob/master/screenshots/Run-server-with-custom-port.png)
 
