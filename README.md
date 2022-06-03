@@ -16,9 +16,17 @@ Exchange files between devices in the same local wifi network
 
 <hr>
 
+# Usage:
+
+**Install requirements:**
+
+`python -m pip install -r requirements.txt`
+
 **Get help:**
 
 `python master.py -h/--help`
+
+![](https://github.com/LookiMan/PIPE/blob/master/screenshots/Help-text.png)
 
 <hr>
 
