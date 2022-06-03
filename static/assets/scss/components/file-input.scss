@@ -1,0 +1,49 @@
+@import "../constants.scss";
+
+
+.file-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.file-input+label {
+    max-width: 80%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+}
+
+.file-input:focus+label,
+.file-input.has-focus+label {
+    outline: 1px dotted $black;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.file-input+label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
+}
+
+.file-input+label {
+    color: $green;
+    border: 2px solid currentColor;
+}
+
+.file-input:focus+label,
+.file-input.has-focus+label,
+.file-input+label:hover {
+    color: $hover-green;
+}

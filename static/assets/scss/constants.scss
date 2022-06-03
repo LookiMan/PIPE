@@ -1,0 +1,29 @@
+
+$background-color: #f1f1f1;
+
+$white: #fff;
+$black: #000;
+$gray: #333;
+$green: #04AA6D;
+$hover-green: #038857;
+
+$sizes: (
+    "xs":320px,
+    "sm":576px,
+    "md":768px,
+    "lg":992px,
+    "xl":1200px
+);
+
+
+@mixin media($minmax, $media) {
+    
+    @each $size,
+    $resolution in $sizes {
+        @if $media ==$size {
+            @media only screen and (#{$minmax}-width: $resolution) {
+                @content;
+            }
+        }
+    }
+}

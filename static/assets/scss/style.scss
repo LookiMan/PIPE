@@ -1,0 +1,39 @@
+@import "./components/navbar.scss";
+@import "./components/button.scss";
+@import "./components/text-input.scss";
+@import "./components/file-input.scss";
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: $background-color;
+}
+
+.d-none {
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.error-code {
+    font-size: 100px;
+}
+
+.error-text {
+    font-size: 30px;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.box {
+    text-align: center;
+    padding: 6.25rem 1.25rem;
+}

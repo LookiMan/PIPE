@@ -1,0 +1,164 @@
+ul.horizontal {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  background-color: #333;
+}
+ul.horizontal li {
+  float: left;
+}
+ul.horizontal li a {
+  display: inline-block;
+  color: #fff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+@media only screen and (max-width: 576px) {
+  ul.horizontal li a {
+    font-size: 12px;
+  }
+}
+ul.horizontal li a.active {
+  background-color: #04AA6D;
+}
+ul.horizontal li a.active:hover {
+  background-color: #038857;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  font-size: 16px;
+  padding: 16px 30px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.15s ease-in-out;
+}
+.btn:hover {
+  background-color: #04AA6D;
+  color: #000;
+}
+
+.text-field {
+  margin: 1rem 0;
+}
+
+.text-field__label {
+  display: block;
+  text-align: center;
+  margin-bottom: 0.25rem;
+  margin: 1rem 0;
+}
+@media only screen and (min-width: 576px) {
+  .text-field__label {
+    font-size: 20px;
+  }
+}
+
+.text-field__input {
+  display: block;
+  width: 100%;
+  height: calc(2.25rem + 2px);
+  padding: 0.375rem 0;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  outline: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #bdbdbd;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.file-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.file-input + label {
+  max-width: 80%;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.625rem 1.25rem;
+}
+
+.file-input:focus + label,
+.file-input.has-focus + label {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
+
+.file-input + label svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: currentColor;
+  margin-top: -0.25em;
+  margin-right: 0.25em;
+}
+
+.file-input + label {
+  color: #04AA6D;
+  border: 2px solid currentColor;
+}
+
+.file-input:focus + label,
+.file-input.has-focus + label,
+.file-input + label:hover {
+  color: #038857;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1;
+}
+
+.d-none {
+  display: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.error-code {
+  font-size: 100px;
+}
+
+.error-text {
+  font-size: 30px;
+}
+
+.container {
+  width: 80%;
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.box {
+  text-align: center;
+  padding: 6.25rem 1.25rem;
+}
+
+/*# sourceMappingURL=style.css.map */
