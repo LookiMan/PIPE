@@ -22,6 +22,11 @@ def not_found(error):
     return render_template('/exceptions/404.html'), HTTP_404_NOT_FOUND
 
 
+@app.errorhandler(HTTP_405_METHOD_NOT_ALLOWED)
+def not_allowed(error):
+    return render_template('/exceptions/405.html'), HTTP_405_METHOD_NOT_ALLOWED
+
+
 @app.route('/')
 def redirect_to_download():
     return redirect(url_for('download_view'))
