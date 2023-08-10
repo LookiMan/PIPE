@@ -7,7 +7,7 @@
 
 ;( function ( document, window, index )
 {
-	var inputs = document.querySelectorAll( '.file-input' );
+	var inputs = document.querySelectorAll( '.hidden-file-input' );
 	Array.prototype.forEach.call( inputs, function( input )
 	{
 		var label	 = input.nextElementSibling,

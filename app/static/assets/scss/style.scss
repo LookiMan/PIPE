@@ -1,13 +1,14 @@
 @import "./components/navbar.scss";
 @import "./components/button.scss";
-@import "./components/text-input.scss";
 @import "./components/file-input.scss";
+@import "./components/table.scss";
 
 
 html, body {
     margin: 0;
     padding: 0;
     background-color: $background-color;
+    font-family: 'lato', sans-serif;
 }
 
 .d-none {
@@ -32,9 +33,3 @@ html, body {
     margin-right: auto;
     margin-left: auto;
 }
-
-.box {
-    text-align: center;
-    padding: 6.25rem 1.25rem;
-}
-

@@ -1,0 +1,147 @@
+.table {
+    margin-top: 100px;
+
+    h2 {
+        font-size: 26px;
+        margin: 20px 0;
+        text-align: center;
+    }
+    
+    .responsive-body {
+        padding: 0;
+
+        li {
+            border-radius: 3px;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .table-header {
+            background-color: #95A5A6;
+            font-size: 14px;
+            padding: 25px 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .table-row {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+        }
+        .col-1 {
+            flex-basis: 80%;   
+        }
+        .col-2 {
+            flex-basis: 20%;
+            text-align: center;
+            position: relative;
+            margin: auto;
+        }
+
+        @media all and (max-width: 767px) {
+            .table-header {
+                display: none;
+            }
+            li {
+                display: block;
+            }
+            .col {
+                flex-basis: 100%;
+            }
+            .col {
+                display: flex;
+                padding: 10px 0;
+                
+                &:before {
+                    color: #6C7A89;
+                    padding-right: 10px;
+                    content: attr(data-label);
+                    flex-basis: 50%;
+                    text-align: right;
+                }
+            }
+        }
+
+        .download-button {
+            display: inline-block;
+            position: relative;
+            padding: 5px 25px;
+            border-radius: 3px;
+
+            background-color: $green;
+            color: white;
+
+            font-family: sans-serif;
+            text-decoration: none;
+            font-size: 0.9em;
+            text-align: center;
+            text-indent: 15px;
+            transition: 0.15s ease-in-out;
+
+            &:hover {
+                background-color: $gray;
+                color: white;
+            }
+
+            &:before, &:after {
+                content: ' ';
+                display: block;
+                position: absolute;
+                left: 15px;
+                top: 52%;
+            }
+    
+            &:before {
+                width: 10px;
+                height: 2px;
+                border-style: solid;
+                border-width: 0 2px 2px;
+            }
+    
+            &:after {
+                width: 0;
+                height: 0;
+                margin-left: 3px;
+                margin-top: -7px;
+              
+                border-style: solid;
+                border-width: 4px 4px 0 4px;
+                border-color: transparent;
+                border-top-color: inherit;
+                
+                animation: download-arrow 2s linear infinite;
+                animation-play-state: paused;
+            }
+            
+            &:hover:before {
+                border-color: #4CC713;
+            }
+            
+            &:hover:after {
+                border-top-color: #4CC713;
+                animation-play-state: running;
+            }
+
+            @keyframes download-arrow {
+                0% {
+                    margin-top: -7px;
+                    opacity: 1;
+                }
+                
+                0.001% {
+                    margin-top: -15px;
+                    opacity: 0;
+                }
+                
+                50% {
+                    opacity: 1;
+                }
+                
+                100% {
+                    margin-top: 0;
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}

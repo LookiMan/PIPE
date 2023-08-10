@@ -1,20 +1,26 @@
-from os import path
-
-from colorama import Fore
 from flask import abort
-from flask import request
+from flask import jsonify
 from flask import render_template
-from flask import session
-from flask import send_from_directory
 from flask import redirect
+from flask import request
+from flask import send_from_directory
+from flask import session
 from flask import url_for
-from flask_api.exceptions import NotFound
 from flask_api.status import HTTP_200_OK
 from flask_api.status import HTTP_201_CREATED
+from flask_api.status import HTTP_400_BAD_REQUEST
 from flask_api.status import HTTP_404_NOT_FOUND
 from flask_api.status import HTTP_405_METHOD_NOT_ALLOWED
+from flask_api.status import HTTP_500_INTERNAL_SERVER_ERROR
+from sqlalchemy.exc import DataError
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import ProgrammingError
+from sqlalchemy.exc import SQLAlchemyError
 
 from app import app
+from app import db
+from app import storage
+from app.models import File
 
 
 @app.errorhandler(HTTP_404_NOT_FOUND)
@@ -33,11 +39,8 @@ def redirect_to_download():
 
 
 @app.route('/download/')
-@app.route('/download/<string:code>')
-def download_view(code=None):
-    if code and not session.get(code):
-        raise NotFound()
-    return render_template('/pages/download.html', context={'code': code}), HTTP_200_OK
+def download_view():
+    return render_template('/pages/download.html'), HTTP_200_OK
 
 
 @app.route('/upload/')
@@ -45,11 +48,17 @@ def upload_view():
     return render_template('/pages/upload.html'), HTTP_200_OK
 
 
-@app.route('/download-file-by-code/<string:code>', methods=['GET'])
-def download_controller(code):
-    item = session.get(code)
+@app.route('/download-file-by-code/<int:file_id>', methods=['GET'])
+def download_controller(file_id):
+    try:
+        item = db.session.query(File)\
+            .filter(File.id == file_id).first()
+    except (ProgrammingError, SQLAlchemyError) as e:
+        app.logger.exception(e)
+        item = None
+
     if not item:
-        raise NotFound()
+        return 'File not found', HTTP_404_NOT_FOUND
 
     return send_from_directory(
         directory=item.directory,
@@ -63,12 +72,22 @@ def upload_controller():
     if request.method != 'POST':
         return abort(HTTP_405_METHOD_NOT_ALLOWED)
 
-    folder = app.config['UPLOAD_FOLDER']
     file = request.files.get('file')
-    file.save(path.join(folder, file.filename))
 
-    print(
-        Fore.GREEN + f' * File: {file.filename} successfully downloaded in: {folder}'
-    )
+    if not file:
+        return 'File not selected', HTTP_400_BAD_REQUEST
 
-    return 'File successfully uploaded', HTTP_201_CREATED
+    try:
+        record = storage.save(file.stream, file.filename)
+    except (DataError, IntegrityError, ProgrammingError, SQLAlchemyError, Exception) as e:
+        app.logger.exception(e)
+        return 'Unknown error', HTTP_500_INTERNAL_SERVER_ERROR
+
+    session.setdefault('codes', []).append(record.code)
+
+    response = jsonify({
+        'message': 'File successfully uploaded',
+        'file': record.to_dict(rules=('-path',)),
+    })
+
+    return response, HTTP_201_CREATED

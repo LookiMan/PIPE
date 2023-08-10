@@ -15,17 +15,16 @@ $(document).ready(function () {
 
         $.ajax({
             url,
-            type: 'HEAD',
+            type: 'GET',
             complete: function (response) {
-                if (response.getResponseHeader('Content-Type') === 'application/json') {
-                    swal('Упс!', 'По данному коду файл не обнаружен', 'error');
-                } else {
-                    const link = $('<a>');
-                    link.attr('href', url);
-                    link.attr('download', 'download');
-                    link[0].click();
-                }
-            }
+                const link = $('<a>');
+                link.attr('href', url);
+                link.attr('download', 'download');
+                link.click();
+            },
+            error: function (error) {
+                swal('Fail', error.responseText, 'error');
+            },
         });
     });
 

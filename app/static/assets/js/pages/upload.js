@@ -1,3 +1,5 @@
+import { renderItem } from '../utils.js'; 
+
 
 $(document).ready(function () {
 
@@ -21,10 +23,14 @@ $(document).ready(function () {
             processData: false,
             data: formData,
             success: function (response) {
-                swal('Success', response, 'success');
+                swal('Success', response?.message || response, 'success');
+
+                if (response.file) {
+                    $('.table .responsive-body').append(renderItem(response));
+                };
             },
             error: function (error) {
-                swal('Fail', JSON.stringify(error.responseText), 'error');
+                swal('Fail', error.responseText, 'error');
             },
         });
     });
