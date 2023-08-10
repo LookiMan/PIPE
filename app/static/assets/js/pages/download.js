@@ -7,17 +7,16 @@ $(document).ready(function () {
         const code = $('input[name="code-input"]').val().trim();
 
         if (!code) {
-            swal('Упс!', 'Введите код для скачивания', 'warning');
+            swal('Warning', 'Enter code to download', 'warning');
             return;
         }
 
-        const url = $(this).data('url').replace('/0', '/' + code);
+        const url = $(this).data('url') + code;
 
         $.ajax({
             url,
             type: 'HEAD',
             complete: function (response) {
-                console.log(response);
                 if (response.getResponseHeader('Content-Type') === 'application/json') {
                     swal('Упс!', 'По данному коду файл не обнаружен', 'error');
                 } else {

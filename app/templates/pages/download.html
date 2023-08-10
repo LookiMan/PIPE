@@ -1,0 +1,19 @@
+{% extends './base.html' %}
+
+
+{% block content %}
+    <div class="container">
+        {% if context['code'] %}
+            <div class="text-field">
+                <input class="text-field__input" type="text" name="code-input" id="code-input" placeholder="XXXX" value="{{context['code']}}">
+                <label class="text-field__label" for="code-input">Click the "download" button to start downloading</label>
+            </div>
+        {% else %}
+            <div class="text-field">
+                <label class="text-field__label" for="code-input">Scan the generated QR-code or enter 4 characters specified in the terminal</label>
+                <input class="text-field__input" type="text" name="code-input" id="code-input" placeholder="XXXX">
+            </div>
+        {% endif %}
+        <button id="download-button" class="btn" data-url="{{ url_for('download_controller', code='') }}">Download</button>
+    </div>
+{% endblock %}

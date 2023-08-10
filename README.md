@@ -18,13 +18,27 @@ Exchange files between devices in the same local wifi network
 
 # Usage:
 
+**Create virtual environment**
+
+`python -m venv "env"`
+
+**Activate virtual environment**
+
+Windows: `./env/Scripts/Activate.ps1`
+
+Linux: `source ./env/bin/activate`
+
+**Upgrade pip**
+
+`python -m pip install --upgrade pip`
+
 **Install requirements:**
 
 `python -m pip install -r requirements.txt`
 
 **Get help:**
 
-`python main.py -h/--help`
+`python run.py -h/--help`
 
 ![](https://github.com/LookiMan/PIPE/blob/master/screenshots/Help-text.png)
 
@@ -32,7 +46,7 @@ Exchange files between devices in the same local wifi network
 
 **Run server with distributing a file:**
 
-`python main.py -f photo.png`
+`python run.py -f photo.png`
 
 ![](https://github.com/LookiMan/PIPE/blob/master/screenshots/File-distribution-screenshot.png)
 
@@ -42,7 +56,7 @@ Exchange files between devices in the same local wifi network
 
 **Run server without distributing a file (If you only need to get the file from another device):**
 
-`python main.py`
+`python run.py`
 
 ![](https://github.com/LookiMan/PIPE/blob/master/screenshots/Run-server-without-distributing-a-file.png)
 
@@ -50,7 +64,7 @@ Exchange files between devices in the same local wifi network
 
 **Run server with custom port (default 5000):**
 
-`python main.py 5001`
+`python run.py 5001`
 
 ![](https://github.com/LookiMan/PIPE/blob/master/screenshots/Run-server-with-custom-port.png)
 
@@ -66,6 +80,4 @@ Exchange files between devices in the same local wifi network
 
 **Run sass (for the development):**
 
-`cd static/assets`
-
-`sass --watch scss\style.scss:css\style.css`
+`sass --watch app/static/assets/scss/style.scss:app/static/assets/css/style.css`

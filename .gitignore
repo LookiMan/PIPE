@@ -1,4 +1,6 @@
-uploads/
+.vscode/
+.flask_session/
+.uploads/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

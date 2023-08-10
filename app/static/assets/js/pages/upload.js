@@ -2,10 +2,11 @@
 $(document).ready(function () {
 
     $('#upload-button').on('click', function (event) {
+        const target = $(event.currentTarget);
         const files = $('input[type=file]').prop('files');
 
         if (files.length === 0) {
-            swal('Упс!', 'Выберите файл для загрузки', 'warning');
+            swal('Warning', 'Select a file to download', 'warning');
             return;
         }
 
@@ -13,17 +14,17 @@ $(document).ready(function () {
         formData.append('file', files[0]);
 
         $.ajax({
-            url: '/uploader',
+            url: $(target).data('url'),
             type: 'POST',
             contentType: false,
             enctype: 'multipart/form-data',
             processData: false,
             data: formData,
             success: function (response) {
-                swal('Успех!', response.description, 'success');
+                swal('Success', response, 'success');
             },
             error: function (error) {
-                swal('Упс!', JSON.stringify(error), 'error');
+                swal('Fail', JSON.stringify(error.responseText), 'error');
             },
         });
     });
