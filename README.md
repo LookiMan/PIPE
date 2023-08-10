@@ -40,6 +40,14 @@ Linux: `source ./env/bin/activate`
 
 `npm install -D --legacy-peer-deps`
 
+**Make migrations:**
+
+`alembic revision --autogenerate -m "init"`
+
+**Migrate:**
+
+`alembic upgrade head`
+
 **Get help:**
 
 `python run.py -h/--help`
