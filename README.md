@@ -36,6 +36,10 @@ Linux: `source ./env/bin/activate`
 
 `python -m pip install -r requirements.txt`
 
+**Install nodejs requirements:**
+
+`npm install -D --legacy-peer-deps`
+
 **Get help:**
 
 `python run.py -h/--help`
@@ -78,6 +82,10 @@ Linux: `source ./env/bin/activate`
 
 <hr>
 
-**Run sass (for the development):**
+**Build assets:**
 
-`sass --watch app/static/assets/scss/style.scss:app/static/assets/css/style.css`
+`npm run build`
+
+**Watch assets (for the development):**
+
+`npm run watch`

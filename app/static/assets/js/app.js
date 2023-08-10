@@ -1,3 +1,4 @@
+import '../scss/style.scss';
 
 try {
     const url = location.pathname;

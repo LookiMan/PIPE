@@ -7,11 +7,11 @@
     <meta name="docsearch:language" content="en">
     <title>PIPE</title>
     <link href="{{ url_for('static', filename='assets/images/favicon.ico') }}" rel="shortcut icon" type="image/x-icon">
-    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/dist/bundle.css') }}" rel="stylesheet" type="text/css">
     
     <script type="text/javascript" src="{{ url_for('static', filename='assets/vendor/js/jquery-3.6.0.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='assets/vendor/js/sweetalert.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='assets/js/app.js') }}" async></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='assets/dist/bundle.js') }}" async></script>
 </head>
 <body>
     {% include './components/navbar.html' %}
