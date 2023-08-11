@@ -1,7 +1,8 @@
-import { renderItem } from '../utils.js'; 
+import { renderRemoveButton } from '../utils.js'; 
 
 
 $(document).ready(function () {
+    $('#upload-item').closest('li').addClass('active');
 
     $('#upload-button').on('click', function (event) {
         const target = $(event.currentTarget);
@@ -12,8 +13,8 @@ $(document).ready(function () {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('file', files[0]);
+        const form = new FormData();
+        form.append('file', files[0]);
 
         $.ajax({
             url: $(target).data('url'),
@@ -21,12 +22,12 @@ $(document).ready(function () {
             contentType: false,
             enctype: 'multipart/form-data',
             processData: false,
-            data: formData,
+            data: form,
             success: function (response) {
                 swal('Success', response?.message || response, 'success');
 
                 if (response.file) {
-                    $('.table .responsive-body').append(renderItem(response));
+                    $('.table .responsive-body').append(renderRemoveButton(response.file));
                 };
             },
             error: function (error) {
@@ -35,5 +36,9 @@ $(document).ready(function () {
         });
     });
 
-    $('#upload-item').closest('li').addClass('active');
+    /*
+    setInterval(() => {
+
+    }, 15*1000)
+    */
 });

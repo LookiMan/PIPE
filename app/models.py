@@ -11,6 +11,8 @@ Base = declarative_base()
 class File(Base, SerializerMixin):
     __tablename__ = 'files'
 
+    serialize_only = ('id', 'name')
+
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     path = Column(String, nullable=False)
