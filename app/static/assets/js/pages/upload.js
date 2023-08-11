@@ -35,5 +35,5 @@ $(document).ready(function () {
         });
     });
 
-    $('#upload-item').addClass('active');
+    $('#upload-item').closest('li').addClass('active');
 });

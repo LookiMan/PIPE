@@ -2,34 +2,4 @@
 @import "./components/button.scss";
 @import "./components/file-input.scss";
 @import "./components/table.scss";
-
-
-html, body {
-    margin: 0;
-    padding: 0;
-    background-color: $background-color;
-    font-family: 'lato', sans-serif;
-}
-
-.d-none {
-    display: none;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.error-code {
-    font-size: 100px;
-}
-
-.error-text {
-    font-size: 30px;
-}
-
-.container {
-    width: 80%;
-    max-width: 800px;
-    margin-right: auto;
-    margin-left: auto;
-}
+@import "./common.scss";

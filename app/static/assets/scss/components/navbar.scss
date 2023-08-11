@@ -6,20 +6,25 @@ ul.horizontal {
     margin: 0px;
     padding: 0px;
     overflow: hidden;
-    background-color: $gray;
+    background-color: $dark-gray;
 
     li {
         float: left;
+        text-align: center;
+        padding: 14px 16px;
 
-        a {
-            display: inline-block;
-            color: $white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
+        &.issue {
+            float: right;
+            background-color: $issue-color-bg;
 
-            @include media("max", "sm") {
-                font-size: 12px;
+            &:hover {
+                background-color: $issue-color-bg-hover;
+            }
+        }
+
+        &.tab {
+            &:hover {
+                background-color: $light-green;
             }
 
             &.active {
@@ -28,6 +33,15 @@ ul.horizontal {
 
             &.active:hover {
                 background-color: $hover-green;
+            }
+        }
+
+        a {
+            color: $white;
+            text-decoration: none;
+
+            @include media("max", "sm") {
+                font-size: 12px;
             }
         }
     }
