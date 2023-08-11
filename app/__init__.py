@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 from flask import Flask
 from flask.logging import logging
 from flask_session import Session
@@ -7,8 +6,6 @@ from flask_marshmallow import Marshmallow
 
 from .storage import Storage
 
-
-load_dotenv()
 
 logging.basicConfig(filename='app.log', level=logging.DEBUG)
 
