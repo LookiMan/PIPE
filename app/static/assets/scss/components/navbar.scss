@@ -13,16 +13,16 @@ ul.horizontal {
         text-align: center;
         padding: 14px 16px;
 
-        &.issue {
-            float: right;
-            background-color: $issue-color-bg;
-
-            &:hover {
-                background-color: $issue-color-bg-hover;
-            }
-        }
-
         &.tab {
+            &.issue {
+                float: right;
+                background-color: $issue-color-bg;
+    
+                &:hover {
+                    background-color: $issue-color-bg-hover;
+                }
+            }    
+
             &:hover {
                 background-color: $light-green;
             }
