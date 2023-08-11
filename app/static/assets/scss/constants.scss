@@ -9,8 +9,11 @@ $light-green: #00ca80;
 $green: #04AA6D;
 $hover-green: #038857;
 
-$issue-color-bg: #B71121;
-$issue-color-bg-hover: #880915;
+$red: #B71121;
+$dark-red: #880915;
+
+$issue-color-bg: $red;
+$issue-color-bg-hover: $dark-red;
 
 $sizes: (
     "xs":320px,

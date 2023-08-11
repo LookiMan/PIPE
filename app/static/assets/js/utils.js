@@ -26,3 +26,24 @@ export function renderDownloadButton(data) {
 export function renderRemoveButton(data) {
     return renderItem(data.name, ButtonType.Remove, data.action);
 }
+
+
+export function watcher(buttonType) {
+    const url = $('#action-url').val();
+    $.ajax({
+        url: url,
+        success: function (response) {
+            const render = buttonType === ButtonType.Download ? renderDownloadButton : renderRemoveButton;
+            const target = $('.table .responsive-body');
+
+            target.find('.table-row').remove();
+
+            for (const index in response) {
+                target.append(render(response[index]));
+            }
+        },
+        error: function (error) {
+            swal('Fail', error.responseText, 'error');
+        },
+    });
+}

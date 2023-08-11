@@ -20,4 +20,7 @@
         <button id="upload-button" class="btn" data-url="{{ url_for('upload_controller') }}">Upload</button>
     </div>
     <script src="{{ url_for('static', filename='assets/vendor/js/custom-file-input.js') }}"></script>
+    <input id="action-url" type="hidden" value="{{ url_for('user_uploaded_files_controller') }}">
+
+    {% include './components/table.html' %}
 {% endblock %}

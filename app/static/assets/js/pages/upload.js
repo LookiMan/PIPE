@@ -1,4 +1,6 @@
 import { renderRemoveButton } from '../utils.js'; 
+import { watcher } from '../utils.js'; 
+import { ButtonType } from '../utils.js'; 
 
 
 $(document).ready(function () {
@@ -24,11 +26,8 @@ $(document).ready(function () {
             processData: false,
             data: form,
             success: function (response) {
-                swal('Success', response?.message || response, 'success');
-
-                if (response.file) {
-                    $('.table .responsive-body').append(renderRemoveButton(response.file));
-                };
+                swal('Success', response.message, 'success');
+                $('.table .responsive-body').prepend(renderRemoveButton(response.file));
             },
             error: function (error) {
                 swal('Fail', error.responseText, 'error');
@@ -36,9 +35,27 @@ $(document).ready(function () {
         });
     });
 
-    /*
-    setInterval(() => {
+    $('body').on('click', '.remove-button', (event) => {
+        event.preventDefault();
 
-    }, 15*1000)
-    */
+        const target = $(event.currentTarget);
+
+        $.ajax({
+            url: target.attr('href'),
+            type: 'DELETE',
+            success: function () {
+                swal('Success', 'File successfully removed', 'success');
+                target.closest('.table-row').remove();
+            },
+            error: function (error) {
+                swal('Fail', error.responseText, 'error');
+            },
+        });
+    });
+
+    setInterval(() => {
+        watcher(ButtonType.Remove);
+    }, 10*1000)
+
+    watcher(ButtonType.Remove);
 });

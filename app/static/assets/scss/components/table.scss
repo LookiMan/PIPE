@@ -80,7 +80,6 @@
 
             &:hover {
                 background-color: $dark-gray;
-                color: white;
             }
 
             &:before, &:after {
@@ -141,6 +140,27 @@
                     margin-top: 0;
                     opacity: 0;
                 }
+            }
+        }
+
+        .remove-button {
+            display: inline-block;
+            position: relative;
+            padding: 5px 25px;
+            border-radius: 3px;
+
+            background-color: $red;
+            color: white;
+
+            font-family: sans-serif;
+            text-decoration: none;
+            font-size: 0.9em;
+            text-align: center;
+            transition: 0.15s ease-in-out;
+
+
+            &:hover {
+                background-color: $dark-red;
             }
         }
     }

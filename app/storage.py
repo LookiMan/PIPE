@@ -17,11 +17,12 @@ class Storage:
             file.write(fp.read())
 
     def save(self, fp, filename):
-        full_path = path.join(self.location, self._create_alias(filename))
+        alias = self._create_alias(filename)
+        full_path = path.join(self.location, alias)
 
         self._save_file(fp, full_path)
 
-        file = File(name=filename, path=full_path)
+        file = File(name=filename, alias=alias)
 
         self.db.session.add(file)
         self.db.session.commit()

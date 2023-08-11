@@ -1,4 +1,5 @@
-from flask import abort
+from os import path
+
 from flask import jsonify
 from flask import render_template
 from flask import redirect
@@ -52,9 +53,6 @@ def download_view():
 
 @app.route('/upload-file/', methods=['POST'])
 def upload_controller():
-    if request.method != 'POST':
-        return abort(HTTP_405_METHOD_NOT_ALLOWED)
-
     file = request.files.get('file')
 
     if not file:
@@ -91,9 +89,10 @@ def download_controller(file_id):
         return 'File not found', HTTP_404_NOT_FOUND
 
     return send_from_directory(
-        directory=item.directory,
-        path=item.path,
+        directory=path.abspath(app.config['UPLOAD_FOLDER']),
+        path=item.alias,
         as_attachment=True,
+        download_name=item.name,
     )
 
 
@@ -120,7 +119,8 @@ def all_uploaded_files_controller():
     files_schema = FileSchema(many=True)
 
     try:
-        items = db.session.query(File)
+        items = db.session.query(File)\
+            .order_by(File.id.desc())
     except (ProgrammingError, SQLAlchemyError) as e:
         app.logger.exception(e)
         items = []
@@ -134,7 +134,8 @@ def user_uploaded_files_controller():
 
     try:
         items = db.session.query(File)\
-            .filter(File.id.in_(session.get('ids', [])))
+            .filter(File.id.in_(session.get('ids', [])))\
+            .order_by(File.id.desc())
     except (ProgrammingError, SQLAlchemyError, Exception) as e:
         app.logger.exception(e)
         items = []

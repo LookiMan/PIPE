@@ -14,6 +14,8 @@ ul.horizontal {
         padding: 14px 16px;
 
         &.tab {
+            cursor: pointer;
+
             &.issue {
                 float: right;
                 background-color: $issue-color-bg;
@@ -39,6 +41,7 @@ ul.horizontal {
         a {
             color: $white;
             text-decoration: none;
+            padding: 14px 16px;
 
             @include media("max", "sm") {
                 font-size: 12px;
