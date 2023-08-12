@@ -1,4 +1,5 @@
-import { renderTable } from '../utils.js'; 
+import { GetUpdates } from '../utils.js';
+import { RenderTable } from '../utils.js'; 
 import { TABLE_TYPE } from '../utils.js'; 
 import { Watcher } from '../utils.js';
 
@@ -6,7 +7,9 @@ import { Watcher } from '../utils.js';
 $(document).ready(function () {
     $('#download-item').closest('li').addClass('active');
 
-    const watcher = new Watcher(() => {renderTable(TABLE_TYPE.Download)}, 1000*10); // 10 seconds
+    const render  = new RenderTable('.table .responsive-body', TABLE_TYPE.Download);
+    const updates = new GetUpdates(render);
+    const watcher = new Watcher(() => updates.get(), 1000*10); // 10 seconds
     watcher.trigger();
 
     $('body').on('click', '.download-button', function (event) {

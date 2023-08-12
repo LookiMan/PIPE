@@ -1,76 +1,81 @@
 const PIPE_LUI_HEADER = 'PP-Last-Update-Id'; 
 
+
 export const TABLE_TYPE = {
     Download: 'Download',
     Remove: 'Remove',
 }
 
 
-function renderItem(fileName, tableType, actionUrl) {
-    const title = tableType === TABLE_TYPE.Download ? 'Download' : 'Remove';
-    const _class = tableType === TABLE_TYPE.Download ? 'download-button' : 'remove-button';
-    const action = `<a href="${actionUrl}" class="${_class}">${title}</a>`;
+export class RenderTable {
+    constructor (selector, tableType) {
+        this.tableType = tableType;
+        this.table = $(selector);
+    }
 
-    return $(`<li class="table-row">
-                <div class="col col-1"><p>${fileName}</p></div>
-                <div class="col col-2">
-                    ${action}
-                </div>
-            </li>`);
-}
+    renderItem(fileName, tableType, actionUrl) {
+        const title = tableType === TABLE_TYPE.Download ? 'Download' : 'Remove';
+        const _class = tableType === TABLE_TYPE.Download ? 'download-button' : 'remove-button';
+        const action = `<a href="${actionUrl}" class="${_class}">${title}</a>`;
+    
+        return $(`<li class="table-row">
+                    <div class="col col-1"><p>${fileName}</p></div>
+                    <div class="col col-2">
+                        ${action}
+                    </div>
+                </li>`);
+    }
 
-
-export function renderDownloadButton(data) {
-    return renderItem(data.name, TABLE_TYPE.Download, data.action);
-}
-
-
-export function renderRemoveButton(data) {
-    return renderItem(data.name, TABLE_TYPE.Remove, data.action);
-}
-
-
-export function renderTable(tableType) {
-    const url = $('#action-url').val();
-    $.ajax({
-        url: url,
-        headers: {
-            [PIPE_LUI_HEADER]: $('#hidden-last-update-id').val() || 0,
-        },
-        success: function (response, status, xhr) {
-            const render = tableType === TABLE_TYPE.Download ? renderDownloadButton : renderRemoveButton;
-            const target = $('.table .responsive-body');
-
-            if (isNeedStartRenderingTable(xhr)) {
-                target.find('.table-row').remove();
-
-                for (const item of response) {
-                    target.append(render(item));
-                };
+    update(response, status, xhr) {
+        if (this.isNeedRenderingTable(xhr)) {
+            this.table.find('.table-row').remove();
+            for (const item of response) {
+                this.table.append(this.renderItem(item.name, this.tableType, item.action));
             };
-        },
-        error: function (error) {
-            swal('Fail', error.responseText, 'error');
-        },
-    });
-}
-
-function isNeedStartRenderingTable(xhr) {
-    const serverLastUpdateId = xhr.getResponseHeader(PIPE_LUI_HEADER);
-    const input = $('#hidden-last-update-id');
-
-    if (!input.val()) {
-        $('body').append($(`<input id="hidden-last-update-id" type="hidden" value="${serverLastUpdateId}"></input>`));
-        return true;
+        };
     }
 
-    if (input.val() < serverLastUpdateId) {
-        input.val(serverLastUpdateId);
-        return true;
+    isNeedRenderingTable(xhr) {
+        const serverLastUpdateId = xhr.getResponseHeader(PIPE_LUI_HEADER);
+        const input = $('#hidden-last-update-id');
+    
+        if (!input.val()) {
+            $('body').append($(`<input id="hidden-last-update-id" type="hidden" value="${serverLastUpdateId}"></input>`));
+            return true;
+        }
+    
+        if (input.val() < serverLastUpdateId) {
+            input.val(serverLastUpdateId);
+            return true;
+        }
+    
+        return false;
+    }
+};
+
+
+export class GetUpdates {
+    constructor (callback) {
+        this.callback = callback;
+        this.action_url = $('#action-url').val();
     }
 
-    return false;
-}
+    get() {
+        const self = this; 
+        $.ajax({
+            url: self.action_url,
+            headers: {
+                [PIPE_LUI_HEADER]: $('#hidden-last-update-id').val() || 0,
+            },
+            success: function (response, status, xhr) {
+                self.callback.update(response, status, xhr);
+            },
+            error: function (error) {
+                swal('Fail', error.responseText, 'error');
+            },
+        });
+    }
+};
 
 
 export class FileInput {
