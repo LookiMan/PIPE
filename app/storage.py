@@ -58,11 +58,9 @@ class Storage:
 
     @private
     def update_last_id(self):
-        model = self.init_model()
         self.increase_last_update_id()
-
-        model.value = self._last_update_id
-
+        model = self.init_model()
+        model.value = self.last_update_id
         self.db.session.commit()
 
     @private
