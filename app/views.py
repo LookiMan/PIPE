@@ -128,8 +128,8 @@ def all_uploaded_files_controller():
     return files_schema.dump(items), HTTP_200_OK
 
 
-@app.route('/user-uploaded-files/', methods=['GET'])
-def user_uploaded_files_controller():
+@app.route('/own-uploaded-files/', methods=['GET'])
+def own_uploaded_files_controller():
     files_schema = FileSchema(is_files_owner=True, many=True)
 
     try:
