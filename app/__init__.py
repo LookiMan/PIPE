@@ -17,6 +17,7 @@ ma = Marshmallow(app)
 
 Session(app)
 
-storage = Storage(app.config['UPLOAD_FOLDER'], db)
+with app.app_context():
+    storage = Storage(app, db)
 
 from app import views # NOQA
