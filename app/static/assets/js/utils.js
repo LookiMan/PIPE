@@ -42,7 +42,6 @@ export function renderTable(buttonType) {
             const target = $('.table .responsive-body');
 
             if (!isNeedStartRenderingButtons(xhr)) {
-                console.log('skip updating...')
                 return;
             }
 
