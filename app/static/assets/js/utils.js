@@ -10,8 +10,8 @@ function renderItem(fileName, buttonType, actionUrl) {
     const action = `<a href="${actionUrl}" class="${_class}">${title}</a>`;
 
     return $(`<li class="table-row">
-                <div class="col col-1" data-label="Name"><p>${fileName}</p></div>
-                <div class="col col-2" data-label="Action">
+                <div class="col col-1"><p>${fileName}</p></div>
+                <div class="col col-2">
                     ${action}
                 </div>
             </li>`);
@@ -53,7 +53,7 @@ export function init_file_input(input) {
     const label = input.next();
 
     input.change((event) => {
-        fileName = event.target.value.split('\\').pop();
+        const fileName = event.target.value.split('\\').pop();
 
         if (fileName) {
             label.find('span.placeholder').addClass('d-none');

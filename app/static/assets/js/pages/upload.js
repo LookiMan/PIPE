@@ -15,7 +15,7 @@ $(document).ready(function () {
         const files = fileSelectInput.prop('files');
 
         if (files.length === 0) {
-            swal('Warning', 'Select a file to download', 'warning');
+            swal('Warning', 'Select a file to upload', 'warning');
             return;
         }
 

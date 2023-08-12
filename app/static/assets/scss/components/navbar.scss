@@ -9,9 +9,9 @@ ul.horizontal {
     background-color: $dark-gray;
 
     li {
+        display: flex;
         float: left;
         text-align: center;
-        padding: 14px 16px;
 
         &.tab {
             cursor: pointer;
@@ -45,6 +45,7 @@ ul.horizontal {
 
             @include media("max", "sm") {
                 font-size: 12px;
+                padding: 12px 14px;
             }
         }
     }

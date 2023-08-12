@@ -36,6 +36,9 @@
     span {
         position: relative;
         margin: auto;
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     &:hover {
