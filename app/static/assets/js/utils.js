@@ -1,4 +1,4 @@
-const PIPE_LUI_HEADER = 'PP-Last-Update-Id'; 
+const PIPE_LUID_HEADER = 'PP-Last-Update-Id'; 
 
 
 export const TABLE_TYPE = {
@@ -36,7 +36,7 @@ export class RenderTable {
     }
 
     isNeedRenderingTable(xhr) {
-        const serverLastUpdateId = xhr.getResponseHeader(PIPE_LUI_HEADER);
+        const serverLastUpdateId = xhr.getResponseHeader(PIPE_LUID_HEADER);
         const input = $('#hidden-last-update-id');
     
         if (!input.val()) {
@@ -65,7 +65,7 @@ export class GetUpdates {
         $.ajax({
             url: self.action_url,
             headers: {
-                [PIPE_LUI_HEADER]: $('#hidden-last-update-id').val() || 0,
+                [PIPE_LUID_HEADER]: $('#hidden-last-update-id').val() || 0,
             },
             success: function (response, status, xhr) {
                 self.callback.update(response, status, xhr);

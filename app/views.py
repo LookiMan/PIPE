@@ -26,7 +26,7 @@ from app.models import File
 from app.schemes import FileSchema
 from app.utils import add_last_update_id_to_headers
 from app.utils import filter_last_update_id
-from app.utils import PIPE_LUI_HEADER
+from app.utils import PIPE_LUID_HEADER
 
 
 @app.errorhandler(HTTP_404_NOT_FOUND)
@@ -120,7 +120,7 @@ def all_uploaded_files_controller():
         return add_last_update_id_to_headers(response, storage.last_update_id)
 
     files_schema = FileSchema(many=True)
-    client_last_update_id = filter_last_update_id(request.headers.get(PIPE_LUI_HEADER))
+    client_last_update_id = filter_last_update_id(request.headers.get(PIPE_LUID_HEADER))
 
     if client_last_update_id == storage.last_update_id:
         items = []
@@ -142,7 +142,7 @@ def own_uploaded_files_controller():
         return add_last_update_id_to_headers(response, storage.last_update_id)
 
     files_schema = FileSchema(is_files_owner=True, many=True)
-    client_last_update_id = filter_last_update_id(request.headers.get(PIPE_LUI_HEADER, None))
+    client_last_update_id = filter_last_update_id(request.headers.get(PIPE_LUID_HEADER))
 
     if client_last_update_id == storage.last_update_id:
         items = []

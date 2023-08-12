@@ -1,7 +1,7 @@
 import socket
 
 
-PIPE_LUI_HEADER = 'PP-Last-Update-Id'
+PIPE_LUID_HEADER = 'PP-Last-Update-Id'
 
 
 def get_ip():
@@ -9,7 +9,7 @@ def get_ip():
 
 
 def add_last_update_id_to_headers(response, id):
-    response.headers[PIPE_LUI_HEADER] = id
+    response.headers[PIPE_LUID_HEADER] = id
     return response
 
 
