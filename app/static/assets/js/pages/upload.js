@@ -1,4 +1,4 @@
-import { renderRemoveButton } from '../utils.js'; 
+import { init_file_input, renderRemoveButton } from '../utils.js'; 
 import { watcher } from '../utils.js'; 
 import { ButtonType } from '../utils.js'; 
 
@@ -6,9 +6,13 @@ import { ButtonType } from '../utils.js';
 $(document).ready(function () {
     $('#upload-item').closest('li').addClass('active');
 
+    const fileSelectInput = $('.hidden-file-input');
+
+    init_file_input(fileSelectInput);
+
     $('#upload-button').on('click', function (event) {
         const target = $(event.currentTarget);
-        const files = $('input[type=file]').prop('files');
+        const files = fileSelectInput.prop('files');
 
         if (files.length === 0) {
             swal('Warning', 'Select a file to download', 'warning');
@@ -28,6 +32,10 @@ $(document).ready(function () {
             success: function (response) {
                 swal('Success', response.message, 'success');
                 $('.table .responsive-body').prepend(renderRemoveButton(response.file));
+                // Reset file input 
+                fileSelectInput.val('');
+                fileSelectInput.next().find('span.placeholder').removeClass('d-none');
+                fileSelectInput.next().find('span.filename').addClass('d-none').html('');
             },
             error: function (error) {
                 swal('Fail', error.responseText, 'error');

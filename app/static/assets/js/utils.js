@@ -38,12 +38,26 @@ export function watcher(buttonType) {
 
             target.find('.table-row').remove();
 
-            for (const index in response) {
-                target.append(render(response[index]));
+            for (const item of response) {
+                target.append(render(item));
             }
         },
         error: function (error) {
             swal('Fail', error.responseText, 'error');
         },
+    });
+}
+
+
+export function init_file_input(input) {
+    const label = input.next();
+
+    input.change((event) => {
+        fileName = event.target.value.split('\\').pop();
+
+        if (fileName) {
+            label.find('span.placeholder').addClass('d-none');
+            label.find('span.filename').removeClass('d-none').html(fileName);
+        }
     });
 }
