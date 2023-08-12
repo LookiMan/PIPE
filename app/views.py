@@ -1,6 +1,6 @@
 from os import path
 
-from flask import jsonify
+from flask import after_this_request
 from flask import render_template
 from flask import redirect
 from flask import request
@@ -24,6 +24,9 @@ from app import db
 from app import storage
 from app.models import File
 from app.schemes import FileSchema
+from app.utils import add_last_update_id_to_headers
+from app.utils import filter_last_update_id
+from app.utils import PIPE_LUI_HEADER
 
 
 @app.errorhandler(HTTP_404_NOT_FOUND)
@@ -66,14 +69,7 @@ def upload_controller():
 
     session.setdefault('ids', []).append(record.id)
 
-    files_schema = FileSchema(is_files_owner=True)
-
-    response = jsonify({
-        'message': 'File successfully uploaded',
-        'file': files_schema.dump(record),
-    })
-
-    return response, HTTP_201_CREATED
+    return 'File successfully uploaded', HTTP_201_CREATED
 
 
 @app.route('/download-file/<int:file_id>', methods=['GET'])
@@ -108,6 +104,9 @@ def remove_controller(file_id):
     if not item:
         return 'File not found', HTTP_404_NOT_FOUND
 
+    if storage.is_exists(item.alias):
+        storage.remove(item.alias)
+
     db.session.delete(item)
     db.session.commit()
 
@@ -116,28 +115,44 @@ def remove_controller(file_id):
 
 @app.route('/all-uploaded-files/', methods=['GET'])
 def all_uploaded_files_controller():
-    files_schema = FileSchema(many=True)
+    @after_this_request
+    def add_last_update_id_header(response):
+        return add_last_update_id_to_headers(response, storage.last_update_id)
 
-    try:
-        items = db.session.query(File)\
-            .order_by(File.id.desc())
-    except (ProgrammingError, SQLAlchemyError) as e:
-        app.logger.exception(e)
+    files_schema = FileSchema(many=True)
+    client_last_update_id = filter_last_update_id(request.headers.get(PIPE_LUI_HEADER))
+
+    if client_last_update_id == storage.last_update_id:
         items = []
+    else:
+        try:
+            items = db.session.query(File)\
+                .order_by(File.id.desc())
+        except (ProgrammingError, SQLAlchemyError) as e:
+            app.logger.exception(e)
+            items = []
 
     return files_schema.dump(items), HTTP_200_OK
 
 
 @app.route('/own-uploaded-files/', methods=['GET'])
 def own_uploaded_files_controller():
-    files_schema = FileSchema(is_files_owner=True, many=True)
+    @after_this_request
+    def add_last_update_id_header(response):
+        return add_last_update_id_to_headers(response, storage.last_update_id)
 
-    try:
-        items = db.session.query(File)\
-            .filter(File.id.in_(session.get('ids', [])))\
-            .order_by(File.id.desc())
-    except (ProgrammingError, SQLAlchemyError, Exception) as e:
-        app.logger.exception(e)
+    files_schema = FileSchema(is_files_owner=True, many=True)
+    client_last_update_id = filter_last_update_id(request.headers.get(PIPE_LUI_HEADER, None))
+
+    if client_last_update_id == storage.last_update_id:
         items = []
+    else:
+        try:
+            items = db.session.query(File)\
+                .filter(File.id.in_(session.get('ids', [])))\
+                .order_by(File.id.desc())
+        except (ProgrammingError, SQLAlchemyError, Exception) as e:
+            app.logger.exception(e)
+            items = []
 
     return files_schema.dump(items), HTTP_200_OK

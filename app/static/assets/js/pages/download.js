@@ -1,9 +1,13 @@
-import { watcher } from '../utils.js'; 
-import { ButtonType } from '../utils.js'; 
+import { renderTable } from '../utils.js'; 
+import { TABLE_TYPE } from '../utils.js'; 
+import { Watcher } from '../utils.js';
 
 
 $(document).ready(function () {
     $('#download-item').closest('li').addClass('active');
+
+    const watcher = new Watcher(() => {renderTable(TABLE_TYPE.Download)}, 1000*10); // 10 seconds
+    watcher.trigger();
 
     $('body').on('click', '.download-button', function (event) {
         event.preventDefault();
@@ -24,10 +28,4 @@ $(document).ready(function () {
             },
         });
     });
-
-    setInterval(() => {
-        watcher(ButtonType.Download);
-    }, 10*1000)
-
-    watcher(ButtonType.Download);
 });

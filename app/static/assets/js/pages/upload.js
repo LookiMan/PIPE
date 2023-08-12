@@ -1,12 +1,15 @@
-import { init_file_input, renderRemoveButton } from '../utils.js'; 
-import { watcher } from '../utils.js'; 
-import { ButtonType } from '../utils.js'; 
+import { init_file_input } from '../utils.js'; 
+import { renderTable } from '../utils.js'; 
+import { TABLE_TYPE } from '../utils.js';
+import { Watcher } from '../utils.js';
 
 
 $(document).ready(function () {
     $('#upload-item').closest('li').addClass('active');
 
     const fileSelectInput = $('.hidden-file-input');
+    const watcher = new Watcher(() => {renderTable(TABLE_TYPE.Remove)}, 1000*10); // 10 seconds
+    watcher.trigger();
 
     init_file_input(fileSelectInput);
 
@@ -30,8 +33,8 @@ $(document).ready(function () {
             processData: false,
             data: form,
             success: function (response) {
-                swal('Success', response.message, 'success');
-                $('.table .responsive-body').prepend(renderRemoveButton(response.file));
+                swal('Success', response, 'success');
+                watcher.trigger();
                 // Reset file input 
                 fileSelectInput.val('');
                 fileSelectInput.next().find('span.placeholder').removeClass('d-none');
@@ -53,17 +56,11 @@ $(document).ready(function () {
             type: 'DELETE',
             success: function () {
                 swal('Success', 'File successfully removed', 'success');
-                target.closest('.table-row').remove();
+                watcher.trigger();
             },
             error: function (error) {
                 swal('Fail', error.responseText, 'error');
             },
         });
     });
-
-    setInterval(() => {
-        watcher(ButtonType.Remove);
-    }, 10*1000)
-
-    watcher(ButtonType.Remove);
 });
