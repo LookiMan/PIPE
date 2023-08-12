@@ -6,9 +6,9 @@ export const TABLE_TYPE = {
 }
 
 
-function renderItem(fileName, buttonType, actionUrl) {
-    const title = buttonType === TABLE_TYPE.Download ? 'download' : 'remove';
-    const _class = buttonType === TABLE_TYPE.Download ? 'download-button' : 'remove-button';
+function renderItem(fileName, tableType, actionUrl) {
+    const title = tableType === TABLE_TYPE.Download ? 'Download' : 'Remove';
+    const _class = tableType === TABLE_TYPE.Download ? 'download-button' : 'remove-button';
     const action = `<a href="${actionUrl}" class="${_class}">${title}</a>`;
 
     return $(`<li class="table-row">
@@ -30,7 +30,7 @@ export function renderRemoveButton(data) {
 }
 
 
-export function renderTable(buttonType) {
+export function renderTable(tableType) {
     const url = $('#action-url').val();
     $.ajax({
         url: url,
@@ -38,18 +38,16 @@ export function renderTable(buttonType) {
             [PIPE_LUI_HEADER]: $('#hidden-last-update-id').val() || 0,
         },
         success: function (response, status, xhr) {
-            const render = buttonType === TABLE_TYPE.Download ? renderDownloadButton : renderRemoveButton;
+            const render = tableType === TABLE_TYPE.Download ? renderDownloadButton : renderRemoveButton;
             const target = $('.table .responsive-body');
 
-            if (!isNeedStartRenderingButtons(xhr)) {
-                return;
-            }
+            if (isNeedStartRenderingTable(xhr)) {
+                target.find('.table-row').remove();
 
-            target.find('.table-row').remove();
-
-            for (const item of response) {
-                target.append(render(item));
-            }
+                for (const item of response) {
+                    target.append(render(item));
+                };
+            };
         },
         error: function (error) {
             swal('Fail', error.responseText, 'error');
@@ -57,21 +55,7 @@ export function renderTable(buttonType) {
     });
 }
 
-
-export function init_file_input(input) {
-    const label = input.next();
-
-    input.change((event) => {
-        const fileName = event.target.value.split('\\').pop();
-
-        if (fileName) {
-            label.find('span.placeholder').addClass('d-none');
-            label.find('span.filename').removeClass('d-none').html(fileName);
-        }
-    });
-}
-
-function isNeedStartRenderingButtons(xhr) {
+function isNeedStartRenderingTable(xhr) {
     const serverLastUpdateId = xhr.getResponseHeader(PIPE_LUI_HEADER);
     const input = $('#hidden-last-update-id');
 
@@ -87,6 +71,37 @@ function isNeedStartRenderingButtons(xhr) {
 
     return false;
 }
+
+
+export class FileInput {
+    constructor (selector) {
+        this.input = $(selector);
+    }
+
+    init() {
+        const label = this.input.next();
+
+        this.input.change((event) => {
+            const fileName = event.target.value.split('\\').pop();
+    
+            if (fileName) {
+                label.find('span.placeholder').addClass('d-none');
+                label.find('span.filename').removeClass('d-none').html(fileName);
+            }
+        });
+    }
+
+    reset() {
+        this.input.val('');
+        this.input.next().find('span.placeholder').removeClass('d-none');
+        this.input.next().find('span.filename').addClass('d-none').html('');
+    }
+
+    file() {
+        const files = this.input.prop('files');
+        return files.length === 0 ? null : files[0];
+    }
+};
 
 
 export class Watcher {

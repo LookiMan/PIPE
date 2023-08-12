@@ -1,29 +1,29 @@
-import { init_file_input } from '../utils.js'; 
 import { renderTable } from '../utils.js'; 
 import { TABLE_TYPE } from '../utils.js';
+import { FileInput } from '../utils.js';
 import { Watcher } from '../utils.js';
 
 
 $(document).ready(function () {
     $('#upload-item').closest('li').addClass('active');
 
-    const fileSelectInput = $('.hidden-file-input');
+    const fileInput = new FileInput('.hidden-file-input');
+    fileInput.init();
+
     const watcher = new Watcher(() => {renderTable(TABLE_TYPE.Remove)}, 1000*10); // 10 seconds
     watcher.trigger();
 
-    init_file_input(fileSelectInput);
-
     $('#upload-button').on('click', function (event) {
         const target = $(event.currentTarget);
-        const files = fileSelectInput.prop('files');
+        const file = fileInput.file();
 
-        if (files.length === 0) {
+        if (!file) {
             swal('Warning', 'Select a file to upload', 'warning');
             return;
         }
 
         const form = new FormData();
-        form.append('file', files[0]);
+        form.append('file', file);
 
         $.ajax({
             url: $(target).data('url'),
@@ -35,10 +35,7 @@ $(document).ready(function () {
             success: function (response) {
                 swal('Success', response, 'success');
                 watcher.trigger();
-                // Reset file input 
-                fileSelectInput.val('');
-                fileSelectInput.next().find('span.placeholder').removeClass('d-none');
-                fileSelectInput.next().find('span.filename').addClass('d-none').html('');
+                fileInput.reset();
             },
             error: function (error) {
                 swal('Fail', error.responseText, 'error');
