@@ -65,18 +65,20 @@ class Storage:
 
         self.db.session.commit()
 
-    def _create_alias(self, filename):
+    @private
+    def create_alias(self, filename):
         return f'{token_hex(nbytes=16)}.{filename}'
 
-    def _save_file(self, fp, path):
+    @private
+    def save_file(self, fp, path):
         with open(path, mode='wb') as file:
             file.write(fp.read())
 
     def save(self, fp, filename):
-        alias = self._create_alias(filename)
+        alias = self.create_alias(filename)
         full_path = path.join(self.upload_folder, alias)
 
-        self._save_file(fp, full_path)
+        self.save_file(fp, full_path)
 
         file = File(name=filename, alias=alias)
 
