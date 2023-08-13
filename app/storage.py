@@ -26,6 +26,11 @@ class Storage:
     def last_update_id(self):
         return self._last_update_id
 
+    @private
+    @last_update_id.setter
+    def last_update_id(self, value):
+        self._last_update_id = value
+
     @property
     def upload_folder(self):
         return self._upload_folder
@@ -50,11 +55,11 @@ class Storage:
 
     @private
     def init_last_update_id(self):
-        self._last_update_id = self.init_model().value
+        self.last_update_id = self.init_model().value
 
     @private
     def increase_last_update_id(self):
-        self._last_update_id += 1
+        self.last_update_id += 1
 
     @private
     def update_last_id(self):
