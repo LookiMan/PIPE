@@ -7,6 +7,7 @@ from flask import request
 from flask import send_from_directory
 from flask import session
 from flask import url_for
+from flask import Blueprint
 from flask_api.status import HTTP_200_OK
 from flask_api.status import HTTP_201_CREATED
 from flask_api.status import HTTP_204_NO_CONTENT
@@ -29,32 +30,40 @@ from app.utils import filter_last_update_id
 from app.utils import PIPE_LUID_HEADER
 
 
-@app.errorhandler(HTTP_404_NOT_FOUND)
+app_cli = Blueprint('app', __name__)
+
+
+@app_cli.errorhandler(HTTP_404_NOT_FOUND)
 def not_found(error):
     return render_template('/exceptions/404.html'), HTTP_404_NOT_FOUND
 
 
-@app.errorhandler(HTTP_405_METHOD_NOT_ALLOWED)
+@app_cli.errorhandler(HTTP_405_METHOD_NOT_ALLOWED)
 def not_allowed(error):
     return render_template('/exceptions/405.html'), HTTP_405_METHOD_NOT_ALLOWED
 
 
-@app.route('/')
+@app_cli.errorhandler(HTTP_500_INTERNAL_SERVER_ERROR)
+def internal_error(error):
+    return render_template('/exceptions/500.html'), HTTP_500_INTERNAL_SERVER_ERROR
+
+
+@app_cli.route('/')
 def redirect_to_download():
-    return redirect(url_for('download_view'))
+    return redirect(url_for('app.download_view'))
 
 
-@app.route('/upload/')
+@app_cli.route('/upload/')
 def upload_view():
     return render_template('/pages/upload.html'), HTTP_200_OK
 
 
-@app.route('/download/')
+@app_cli.route('/download/')
 def download_view():
     return render_template('/pages/download.html'), HTTP_200_OK
 
 
-@app.route('/upload-file/', methods=['POST'])
+@app_cli.route('/upload-file/', methods=['POST'])
 def upload_controller():
     file = request.files.get('file')
 
@@ -72,7 +81,7 @@ def upload_controller():
     return 'File successfully uploaded', HTTP_201_CREATED
 
 
-@app.route('/download-file/<int:file_id>', methods=['GET'])
+@app_cli.route('/download-file/<int:file_id>', methods=['GET'])
 def download_controller(file_id):
     try:
         item = db.session.query(File)\
@@ -92,7 +101,7 @@ def download_controller(file_id):
     )
 
 
-@app.route('/remove-file/<int:file_id>', methods=['DELETE'])
+@app_cli.route('/remove-file/<int:file_id>', methods=['DELETE'])
 def remove_controller(file_id):
     try:
         item = db.session.query(File)\
@@ -113,7 +122,7 @@ def remove_controller(file_id):
     return 'File successfully removed', HTTP_204_NO_CONTENT
 
 
-@app.route('/all-uploaded-files/', methods=['GET'])
+@app_cli.route('/all-uploaded-files/', methods=['GET'])
 def all_uploaded_files_controller():
     @after_this_request
     def add_last_update_id_header(response):
@@ -135,7 +144,7 @@ def all_uploaded_files_controller():
     return files_schema.dump(items), HTTP_200_OK
 
 
-@app.route('/own-uploaded-files/', methods=['GET'])
+@app_cli.route('/own-uploaded-files/', methods=['GET'])
 def own_uploaded_files_controller():
     @after_this_request
     def add_last_update_id_header(response):

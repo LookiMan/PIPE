@@ -19,6 +19,6 @@ class FileSchema(ma.SQLAlchemyAutoSchema):
 
     def get_action(self, obj):
         return url_for(
-            'remove_controller' if self.is_files_owner else 'download_controller',
+            'app.remove_controller' if self.is_files_owner else 'app.download_controller',
             file_id=obj.id
         )

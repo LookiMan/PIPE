@@ -19,9 +19,9 @@
                 </span>
             </label>
         </div>
-        <button id="upload-button" class="btn" data-url="{{ url_for('upload_controller') }}">Upload</button>
+        <button id="upload-button" class="btn" data-url="{{ url_for('app.upload_controller') }}">Upload</button>
     </div>
-    <input id="action-url" type="hidden" value="{{ url_for('own_uploaded_files_controller') }}">
+    <input id="action-url" type="hidden" value="{{ url_for('app.own_uploaded_files_controller') }}">
 
     {% include './components/table.html' %}
 {% endblock %}

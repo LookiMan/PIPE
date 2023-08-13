@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    <input id="action-url" type="hidden" value="{{ url_for('all_uploaded_files_controller') }}">
+    <input id="action-url" type="hidden" value="{{ url_for('app.all_uploaded_files_controller') }}">
 
     {% include './components/table.html' %}
 {% endblock %}
