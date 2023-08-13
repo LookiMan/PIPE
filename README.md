@@ -97,3 +97,8 @@ Linux: `source ./env/bin/activate`
 **Watch assets (for the development):**
 
 `npm run watch`
+
+
+**Clear all media files:**
+
+`flask command clear`
