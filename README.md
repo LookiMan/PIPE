@@ -89,13 +89,13 @@ Windows: `./env/Scripts/Activate.ps1`
 
 <hr>
 
-**Build assets use webpack:**
+**Build assets use Webpack:**
 
 `npm run build`
 
 <hr>
 
-**Build styles use sass (If webpack Webpack not installed)**
+**Build styles use Sass (If webpack Webpack not installed)**
 
 `sass ./app/static/assets/scss/style.scss:./app/static/assets/dist/bundle.css`
 
@@ -135,7 +135,7 @@ Windows: `./env/Scripts/Activate.ps1`
 
 <hr>
 
-**Watch styles use sass (If Webpack not installed)**
+**Watch styles use Sass (If Webpack not installed)**
 
 `sass --watch ./app/static/assets/scss/style.scss:./app/static/assets/dist/bundle.css`
 
