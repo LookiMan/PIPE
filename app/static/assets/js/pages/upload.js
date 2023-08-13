@@ -1,8 +1,8 @@
-import { GetUpdates } from '../utils.js';
-import { FileInput } from '../utils.js';
-import { RenderTable } from '../utils.js'; 
-import { TABLE_TYPE } from '../utils.js';
-import { Watcher } from '../utils.js';
+import { FileInput }   from '../components/file-input';
+import { GetUpdates }  from '../components/get-updates';
+import { TableRender } from '../components/table-render';
+import { Watcher }     from '../components/watcher';
+import { TABLE_TYPE }  from '../utils'; 
 
 
 $(document).ready(function () {
@@ -11,9 +11,9 @@ $(document).ready(function () {
     const fileInput = new FileInput('.hidden-file-input');
     fileInput.init();
 
-    const render  = new RenderTable('.table .responsive-body', TABLE_TYPE.Remove);
-    const updates = new GetUpdates(render);
-    const watcher = new Watcher(() => updates.get(), 1000*10); // 10 seconds
+    const render  = new TableRender('.table .responsive-body', TABLE_TYPE.Remove);
+    const updates = new GetUpdates(render.update);
+    const watcher = new Watcher(updates.get, 1000*10); // 10 seconds
     watcher.trigger();
 
     $('#upload-button').on('click', function (event) {
