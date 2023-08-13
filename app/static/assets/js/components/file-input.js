@@ -1,6 +1,7 @@
 export class FileInput {
     constructor (selector) {
         this.input = $(selector);
+        this.init();
     }
 
     init() {

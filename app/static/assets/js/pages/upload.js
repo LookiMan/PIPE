@@ -9,8 +9,6 @@ $(document).ready(function () {
     $('#upload-item').closest('li').addClass('active');
 
     const fileInput = new FileInput('.hidden-file-input');
-    fileInput.init();
-
     const render  = new TableRender('.table .responsive-body', TABLE_TYPE.Remove);
     const updates = new GetUpdates(render.update);
     const watcher = new Watcher(updates.get, 1000*10); // 10 seconds
