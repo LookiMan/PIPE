@@ -15,10 +15,10 @@ export class GetUpdates {
             headers: {
                 [PIPE_LUID_HEADER]: $('#hidden-last-update-id').val() || 0,
             },
-            success: function (response, status, xhr) {
+            success: (response, status, xhr) => {
                 self.callback(response, status, xhr);
             },
-            error: function (error) {
+            error: (error) => {
                 swal('Fail', error.responseText, 'error');
             },
         });

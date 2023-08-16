@@ -5,7 +5,7 @@ import { Watcher }     from '../components/watcher';
 import { TABLE_TYPE }  from '../utils'; 
 
 
-$(document).ready(function () {
+$(document).ready(() => {
     $('#upload-item').closest('li').addClass('active');
 
     const fileInput = new FileInput('.hidden-file-input');
@@ -14,7 +14,7 @@ $(document).ready(function () {
     const watcher = new Watcher(updates.get, 1000*10); // 10 seconds
     watcher.trigger();
 
-    $('#upload-button').on('click', function (event) {
+    $('#upload-button').on('click', (event) => {
         const target = $(event.currentTarget);
         const file = fileInput.file();
 
@@ -33,12 +33,12 @@ $(document).ready(function () {
             enctype: 'multipart/form-data',
             processData: false,
             data: form,
-            success: function (response) {
+            success: (response) => {
                 swal('Success', response, 'success');
                 watcher.trigger();
                 fileInput.reset();
             },
-            error: function (error) {
+            error: (error) => {
                 swal('Fail', error.responseText, 'error');
             },
         });
@@ -52,11 +52,11 @@ $(document).ready(function () {
         $.ajax({
             url: target.attr('href'),
             type: 'DELETE',
-            success: function () {
+            success: (response) => {
                 swal('Success', 'File successfully removed', 'success');
                 watcher.trigger();
             },
-            error: function (error) {
+            error: (error) => {
                 swal('Fail', error.responseText, 'error');
             },
         });

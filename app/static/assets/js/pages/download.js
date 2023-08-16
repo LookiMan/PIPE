@@ -4,7 +4,7 @@ import { Watcher }     from '../components/watcher';
 import { TABLE_TYPE }  from '../utils'; 
 
 
-$(document).ready(function () {
+$(document).ready(() => {
     $('#download-item').closest('li').addClass('active');
 
     const render  = new TableRender('.table .responsive-body', TABLE_TYPE.Download);
@@ -12,7 +12,7 @@ $(document).ready(function () {
     const watcher = new Watcher(updates.get, 1000*10); // 10 seconds
     watcher.trigger();
 
-    $('body').on('click', '.download-button', function (event) {
+    $('body').on('click', '.download-button', (event) => {
         event.preventDefault();
 
         const url = $(event.currentTarget).attr('href');
@@ -20,13 +20,13 @@ $(document).ready(function () {
         $.ajax({
             url,
             type: 'GET',
-            complete: function (response) {
+            complete: (response) => {
                 const link = $('<a>');
                 link.attr('href', url);
                 link.attr('download', 'download');
                 link[0].click();
             },
-            error: function (error) {
+            error: (error) => {
                 swal('Fail', error.responseText, 'error');
             },
         });
